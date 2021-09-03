@@ -1,0 +1,28 @@
+server:
+  port: 7002
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100GB
+      max-request-size: 100GB
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: smartictapplication@gmail.com
+    password: sm0rtict_m0il_0pp
+    protocol: smtp
+    tls: true
+    from: smartictapplication@gmail.com
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.trust: smtp.gmail.com
+
+mail:
+  shutdown-after-load: false
+  is-test-env: true
+  security:
+    cors:
+      allowed-hosts:
+        - /**
