@@ -71,6 +71,7 @@ public enum EnumExceptionMessages {
     CLASS_USER_CLASS_NOT_FOUND("ExceptionMessages.CLASS_USER_CLASS_NOT_FOUND", "Verilen id ye karşılık sınıf bulunamadı!"),
 
     MAIL_NOT_SENT("ExceptionMessages.MAIL_NOT_SENT", "Mail gönderilemedi!"),
+    MAIL_ATTACHMENT_NOT_SUPPORT("ExceptionMessages.MAIL_ATTACHMENT_NOT_SUPPORT", "Mail eki desteklenmeyen bir dosya türünde"),
 
     UNEXPECTED_ERROR_OCCURRED("ExceptionMessages.UNEXPECTED_ERROR_OCCURRED", "Beklenmeyen hata oluştu!");
 
