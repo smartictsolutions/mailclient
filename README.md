@@ -16,7 +16,7 @@ It is a Gradle-Spring Framework project that has Rest endpoint.
 
 ##### Docker-Compose Configuration 
 
-This service has own configurations that based on Gmail. Also another mail configurations accepted. For the adjustments *Environment Variables* can be set for your container that like below on the docker-compose file. 
+This service has own configurations that based on Gmail. Also another mail configurations accepted. For the adjustments *Environment Variables* can be set for your container that like below on the docker-compose file.
 
 ```yaml
 version: '3.9'
