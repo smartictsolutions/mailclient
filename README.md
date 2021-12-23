@@ -40,7 +40,6 @@
         networks:
           mail-client-net:
             ipv4_address: 152.24.0.2 
-    
     networks:
       mail-client-net:
         name: mail-client-net
@@ -69,13 +68,10 @@
 
     ---
 
-    
+##### Application YAML Based Configuration
 
-    ##### Application YAML Based Configuration
-
-    The other way of the setup mail configuration is editing application's own configuration file. This file must defined in the docker compose file as  a volume that mentioned at the previous section. As you can see below, **mail-client-config-base.yml** file must placed the right place.  
-
-    ```yaml
+The other way of the setup mail configuration is editing application's own configuration file. This file must defined in the docker compose file as  a volume that mentioned at the previous section. As you can see below, **mail-client-config-base.yml** file must placed the right place.      
+```yaml
     version: '3.9'
     services:
       mail-client:
@@ -85,26 +81,26 @@
           - "7002:7002"
         volumes:
           - ./exposed_config/mail-client-config-base.yml:/config/mail-client-config.yml
-    ```
+```
 
-     For this compose file there must be a **mail-client-config-base.yml** under **exposed_config** folder.
-
-    <left><img src="C:\Users\ceyhun.yilmaz\AppData\Roaming\Typora\typora-user-images\image-20210902152349286.png" alt="image-20210902152349286" style="zoom:120%;" /></left>
-
+For this compose file there must be a **mail-client-config-base.yml** under **exposed_config** folder.
     
+<left><img src="C:\Users\ceyhun.yilmaz\AppData\Roaming\Typora\typora-user-images\image-20210902152349286.png" alt="image-20210902152349286" style="zoom:120%;" /></left>
 
-    *Exposed config folder:*  
 
 
-    <left><img src="C:\Users\ceyhun.yilmaz\Desktop\image-20210902152511236.png" alt="image-20210902152511236" style="zoom:120%;" /></left>
+*Exposed config folder:*  
 
+<left><img src="C:\Users\ceyhun.yilmaz\Downloads\124.png" alt="image-20210902152511236" style="zoom:120%;" /></left>
+
+
+
+
+
+
+Sample application's yaml file :
     
-
-    
-
-    Sample application's yaml file :
-
-    ```yaml
+```yaml
     server:
       port: 7002
     
@@ -132,80 +128,81 @@
         cors:
           allowed-hosts:
             - /**
-    ```
+```
 
-     **server** 
+**server** 
 
-     - **port:** Application's serving port.   
+- **port:** Application's serving port.   
 
-    >   Note: This port must be exact same value on the docker-compose ***<ports>*** 's value.
+>   Note: This port must be exact same value on the docker-compose ***<ports>*** 's value.
 
 
     **spring\mail**
-
+    
     - **host:** SMTP host 
-
+    
     - **port:** SMTP port 
-
+    
     - **username:** SMTP mail username with full address (ex -> your_username@gmail.com)
-
+    
     - **password:** SMTP mail password
-
+    
     - **protocol:** Mail protocol
-
+    
     - **is_auth:** SMTP authentication parameter
-
+    
     - **starttls.enable:** Start TLS enable parameter  
-
+    
     - **ssl.trust:** SMTP SSL trusted address 
 
+
+​      
+
+### Docker
+
+- ```shell
+  docker run --name mail-client-container -p 7002:7002 -e MAIL_USERNAME=[your_mail] -e MAIL_PASSWORD=[your_password] -d smartsolutions/mail-client-image:latest
+  ```
+  
+    - Install with docker-compose
+  
+    First of all, you must create a docker-compose file. Depends on the configuration choice   
+  
+## API Endpoints
+
+- **POST  mail/sendMail**
       
 
-    ### Docker
+This endpoint includes 2 part (@RequestPart Json ,@RequestPart MultipartFile):
+      
+First part is mail body :
 
-    - ```shell
-      docker run --name mail-client-container -p 7002:7002 -e MAIL_USERNAME=[your_mail] -e MAIL_PASSWORD=[your_password] -d smartsolutions/mail-client-image:latest
-      ```
+```
+    {
+    	"to":"dev@smartict.com.tr",
+    	"cc":"dev2@smartict.com.tr",
+    	"bcc":"dev3@smartict.com.tr",
+    	"subject":"Hello There!",
+    	"body":"This is Smart Mail Client Application :)"
+    }
+```
+Also CC and BCC addresses can be set.
 
-    - Install with docker-compose
+Second part is optional (Nullable):
 
-    First of all, you must create a docker-compose file. Depends on the configuration choice   
 
-    ## API Endpoints 
+if you want to add attachment to your mail you can use "MultiPart File Data (multipart/form-data)" request.
 
-	**POST  mail/sendMail**
-	
-	This endpoint includes 2 part (@RequestPart Json ,@RequestPart MultipartFile):
-	
-	First part is mail body :
-	
-	```
-	{
-		"to":"dev@smartict.com.tr",
-		"cc":"dev2@smartict.com.tr",
-		"bcc":"dev3@smartict.com.tr",
-		"subject":"Hello There!",
-		"body":"This is Smart Mail Client Application :)"
-	}
-	```
-	Also CC and BCC addresses can be set.
-	
-	Second part is optional (Nullable):
-	
-	```
-	if you want to add attachment to your mail you can use "MultiPart File Data (multipart/form-data)" request .
+Supported file formats: .pdf , .xlsx , .xls , .png , .jgp , .txt 
 
-	Supported file formats: .pdf , .xlsx , .xls , .png , .jgp , .txt 
-	```
-    
-
-    **GET /test** 
-
+- **GET /test** 
+  
     This endpoint placed for test to service is running.   
 
-    
 
-    ## Quick Reference
+
+
+## Quick Reference
 
     - [Github repository]( https://github.com/smartictsolutions/mailclient)
     - [Docker Repository](https://hub.docker.com/r/smartictsolutions/mailclient)
