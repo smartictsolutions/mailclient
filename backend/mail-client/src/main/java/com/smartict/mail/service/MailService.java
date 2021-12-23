@@ -3,7 +3,9 @@ package com.smartict.mail.service;
 
 import com.smartict.mail.dto.MailDto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public interface MailService {
 
-    MailDto sendMail(MailDto mailDto);
+    MailDto sendMail(MailDto mailDto, MultipartFile multipartFile);
 }

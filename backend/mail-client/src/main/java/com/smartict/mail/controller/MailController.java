@@ -9,8 +9,11 @@ import com.smartict.mail.dto.response.RestResponse;
 import com.smartict.mail.service.MailService;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("mail")
@@ -22,12 +25,15 @@ public class MailController {
         this.mailService = mailService;
     }
 
-    @PostMapping(value = "/sendMail")
-    public ResponseEntity<RestResponse<MailDto>> sendMail(@RequestBody MailDto mail) {
+    @PostMapping(value = "/sendMail", consumes = {
+        MediaType.APPLICATION_JSON_VALUE,
+        MediaType.MULTIPART_FORM_DATA_VALUE
+    })
+    public ResponseEntity<RestResponse<MailDto>> sendMail(@RequestPart("mail") MailDto mail, @Nullable @RequestPart("file") MultipartFile file) {
         try {
             return new ResponseEntity<>(
                 new RestResponse<>(
-                    mailService.sendMail(mail),
+                    mailService.sendMail(mail, file),
                     EnumCrudMessages.READ_TITLE.getLanguageKey(),
                     EnumCrudMessages.READ_TITLE.getLanguageValue(),
                     EnumCrudMessages.READ_SUCCESS_MESSAGE.getLanguageKey(),
